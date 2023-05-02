@@ -46,7 +46,7 @@
                 <button type="submit" class="btn btn-dark btn-lg btn-block" >LOGIN</button>
                 <div class="bottom">
                     <span class="helper-text m-b-10"><i class="fa fa-lock"></i> <a href="{{route('password.request')}}">Forgot password?</a></span>
-                    <span>Don't have an account? <a href="{{route('register')}}">Register</a></span>
+                    <span>Contact HR to get your account</span>
                 </div>
             </form>
         </div>

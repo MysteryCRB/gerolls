@@ -4,12 +4,51 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Carbon;
 class DashboardController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return view('dashboard.index');
+        $employee = DB::table('employes')->select('*')
+        ->where('user_id', auth()->user()->id)->first();
+        if(!$employee) {
+            return 'Your account does not activated yet please contact HR';
+        }
+        $checkToday = DB::table('attendance')
+        ->select('*')
+        ->where('employee_id', auth()->user()->id)
+        ->whereDate('attendance_date',  date('Y-m-d'))->get();
+        $isIn = false;
+        $isOut = false;
+        foreach($checkToday as $check) {
+            if($check->attendance_type == 'Clock In') $isIn = true;
+            if($check->attendance_type == 'Clock Out') $isIn = true;
+        }
+        if($request->isMethod('post')) {
+            if(!$isIn)  {
+                DB::table('attendance')
+                ->insert([
+                    'employee_id' => auth()->user()->id,
+                    'attendance_type' => 'Clock In',
+                    'attendance_date' => date('Y-m-d'),
+                    'attendance_time' => date('H:i')
+                ]);
+                $isIn = true;
+            } else {
+                DB::table('attendance')
+                ->insert([
+                    'employee_id' => auth()->user()->id,
+                    'attendance_type' => 'Clock Out',
+                    'attendance_date' => date('Y-m-d'),
+                    'attendance_time' => date('H:i')
+                ]);
+                $isOut = true;
+            }
+        }
+        return view('dashboard.index', [
+            'attendance_in' => $isIn,
+            'attendance_out' => $isOut
+        ]);
     }
 
     public function Themeupdate($id, Request $req)

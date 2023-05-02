@@ -22,7 +22,7 @@ class UsersController extends Controller
         //$users = DB::table('users')->orderBy('id','DESC')->get();
         $users = DB::table('users as u')
             ->select('u.id', 'u.name as uname', 'u.email', 'r.name as rname')
-            ->join('roles as r', 'u.role_id', '=', 'r.id')
+            ->leftJoin('roles as r', 'u.role_id', '=', 'r.id')
             ->orderBy('u.id', 'DESC')
             ->get();
         //if($users)

@@ -19,7 +19,29 @@
     <li>Shafira Aulia (001202200170)</li>
   </ul>
 
+@if($attendance_in == false)
+<div class="card">
+    <div class="card-body">
+        <form method="post">
+            @csrf
+            <div class="alert alert-info">Please click button below to attendance</div>
+            <button type="submit" class="btn btn-primary">Attend In</button>
+        </form>
+    </div>
+</div>
+@endif
 
+@if($attendance_in == true && $attendance_out == false)
+<div class="card">
+    <div class="card-body">
+        <form method="post">
+            @csrf
+            <div class="alert alert-info">Please click button below to attendance</div>
+            <button type="submit" class="btn btn-primary">Attend Out</button>
+        </form>
+    </div>
+</div>
+@endif
                 </span>
             </div>
           

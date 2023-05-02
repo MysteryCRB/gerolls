@@ -19,7 +19,7 @@ Route::get('change-theme-sidebar/{id}', [DashboardController::class, 'Themeupdat
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
-Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index')->middleware(['auth']);
+Route::any('/', [DashboardController::class, 'index'])->name('dashboard.index')->middleware(['auth']);
 
 // Roles Routes
 Route::get('list-roles', [rolesController::class, 'rolesList'])->middleware('auth', 'AuthResource:list-roles');
